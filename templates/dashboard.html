@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard | SwiftFunds</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <style>
+    #particles-js {
+        position: fixed; width:100%; height:100%; z-index:-1;
+    }
+  </style>
+</head>
+<body class="fade-in">
+<div id="particles-js"></div>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <h3>🏦 SwiftFunds Dashboard</h3>
+    <a href="/logout" class="btn btn-danger btn-sm btn-custom">Logout</a>
+  </div>
+  <hr>
+  <h5>Welcome, {{ user.name }} 👋</h5>
+
+  <div class="balance-card">
+    <h2>💰 Balance: ₹<span id="balance" data-value="{{ user.balance }}">0</span></h2>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} mt-3 fade-in">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div class="row mt-4">
+    <div class="col-md-4">
+      <h5>Deposit</h5>
+      <form method="POST" action="/deposit">
+        <input class="form-control mb-2" type="number" step="0.01" name="amount" placeholder="Enter Amount ₹" required>
+        <button type="submit" class="btn btn-success w-100 btn-custom">Deposit</button>
+      </form>
+    </div>
+    <div class="col-md-4">
+      <h5>Withdraw</h5>
+      <form method="POST" action="/withdraw">
+        <input class="form-control mb-2" type="number" step="0.01" name="amount" placeholder="Enter Amount ₹" required>
+        <button type="submit" class="btn btn-warning w-100 btn-custom">Withdraw</button>
+      </form>
+    </div>
+    <div class="col-md-4">
+      <h5>Transfer</h5>
+      <form method="POST" action="/transfer">
+        <input class="form-control mb-2" type="email" name="email" placeholder="Recipient Email" required>
+        <input class="form-control mb-2" type="number" step="0.01" name="amount" placeholder="Amount ₹" required>
+        <button type="submit" class="btn btn-primary w-100 btn-custom">Transfer</button>
+      </form>
+    </div>
+  </div>
+
+  <h5 class="mt-5">📜 Recent Transactions</h5>
+  <div class="transaction-table">
+    <table class="table table-dark table-striped table-hover mt-2">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Target</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in transactions %}
+        <tr>
+          <td>{{ t.type }}</td>
+          <td>₹{{ "%.2f"|format(t.amount) }}</td>
+          <td>{{ t.date }}</td>
+          <td>{{ t.target_email or '-' }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4" class="text-center text-muted">No transactions yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    margin: 0; padding: 0;
+}
+
+.fade-in { animation: fadeIn 0.8s ease; }
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+
+.btn-custom {
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+}
+.btn-custom:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 25px rgba(255,255,255,0.4);
+}
+
+.balance-card {
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    margin-top: 20px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.1);
+}
+
+.transaction-table {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 10px;
+}
